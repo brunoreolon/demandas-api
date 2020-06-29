@@ -2,19 +2,55 @@ package br.unipar.demandas.domain.model;
 
 public abstract class Usuario {
 
+	private Integer id;
+	private String nome;
 	private String cpf;
 	private String cnpj;
 	private String email;
+	private String formacao;
 	private String celular;
 	private String telefone;
+	private String genero;
 	private Endereco endereco;
-	
+
 	public String getCpf() {
 		return cpf;
 	}
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getFormacao() {
+		return formacao;
+	}
+
+	public void setFormacao(String formacao) {
+		this.formacao = formacao;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public String getCnpj() {

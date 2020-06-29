@@ -2,19 +2,36 @@ package br.unipar.demandas.domain.model;
 
 import javax.persistence.Entity;
 
-//@Entity
-public class Professor extends Usuario implements ISolicitante{
+@Entity
+public class Professor extends Usuario implements ISolicitante {
+
+	private Integer ra;
+	private String universidade;
 
 	@Override
 	public void cadastrar(Demanda demanda) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void avaliar() {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	public Integer getRa() {
+		return ra;
+	}
+
+	public void setRa(Integer ra) {
+		this.ra = ra;
+	}
+
+	public String getUniversidade() {
+		return universidade;
+	}
+
+	public void setUniversidade(String universidade) {
+		this.universidade = universidade;
 	}
 
 }

@@ -2,21 +2,27 @@ package br.unipar.demandas.domain.model;
 
 import javax.persistence.Entity;
 
-import br.unipar.demandas.domain.model.Usuario;
-
-//@Entity
+@Entity
 public class UsuarioExterno extends Usuario implements ISolicitante{
 
+	private Integer codigo;
+	
 	@Override
 	public void cadastrar(Demanda demanda) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void avaliar() {
-		// TODO Auto-generated method stub
 		
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 
 }

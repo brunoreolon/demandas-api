@@ -2,17 +2,12 @@ package br.unipar.demandas.domain.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 public class Demanda {
@@ -24,14 +19,14 @@ public class Demanda {
 	private String titulo;
 	private String descricao;
 	
-	@Temporal(TemporalType.DATE)
-	private Date data;
+//	@Temporal(TemporalType.DATE)
+//	private Date data;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataPrazo;
 	
-	@Enumerated(EnumType.STRING)
-	private StatusEnum status;
+//	@Enumerated(EnumType.STRING)
+//	private StatusEnum status;
 	
 //	@ManyToAny(metaColumn = @Column)
 //	private ISolicitante solicitante;
@@ -60,13 +55,13 @@ public class Demanda {
 		this.descricao = descricao;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
+//	public Date getData() {
+//		return data;
+//	}
+//
+//	public void setData(Date data) {
+//		this.data = data;
+//	}
 
 	public Date getDataPrazo() {
 		return dataPrazo;
@@ -76,13 +71,13 @@ public class Demanda {
 		this.dataPrazo = dataPrazo;
 	}
 
-	public StatusEnum getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusEnum status) {
-		this.status = status;
-	}
+//	public StatusEnum getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(StatusEnum status) {
+//		this.status = status;
+//	}
 
 //	public ISolicitante getSolicitante() {
 //		return solicitante;
