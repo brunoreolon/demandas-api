@@ -1,4 +1,4 @@
-package br.unipar.demandas.domain.model;
+package br.unipar.demandas.domain.model.enums;
 
 public enum StatusEnum {
 

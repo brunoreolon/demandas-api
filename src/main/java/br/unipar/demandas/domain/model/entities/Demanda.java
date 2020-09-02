@@ -1,13 +1,20 @@
-package br.unipar.demandas.domain.model;
-
-import java.util.Date;
+package br.unipar.demandas.domain.model.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Demanda {
@@ -16,20 +23,22 @@ public class Demanda {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank
 	private String titulo;
+	
+	@NotBlank
 	private String descricao;
 	
-//	@Temporal(TemporalType.DATE)
-//	private Date data;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "solicitante_id")
+	private Solicitante solicitante;
 	
-	@Temporal(TemporalType.DATE)
-	private Date dataPrazo;
-	
-//	@Enumerated(EnumType.STRING)
-//	private StatusEnum status;
-	
-//	@ManyToAny(metaColumn = @Column)
-//	private ISolicitante solicitante;
+	@JsonProperty(access = Access.READ_ONLY)
+	@OneToOne()
+	@JoinColumn(name = "event_id")
+	@Cascade(CascadeType.ALL)
+	private Event event;
 
 	public Long getId() {
 		return id;
@@ -55,37 +64,21 @@ public class Demanda {
 		this.descricao = descricao;
 	}
 
-//	public Date getData() {
-//		return data;
-//	}
-//
-//	public void setData(Date data) {
-//		this.data = data;
-//	}
-
-	public Date getDataPrazo() {
-		return dataPrazo;
+	public Solicitante getSolicitante() {
+		return solicitante;
 	}
 
-	public void setDataPrazo(Date dataPrazo) {
-		this.dataPrazo = dataPrazo;
+	public void setSolicitante(Solicitante solicitante) {
+		this.solicitante = solicitante;
+	}
+	
+	public Event getEvent() {
+		return event;
 	}
 
-//	public StatusEnum getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(StatusEnum status) {
-//		this.status = status;
-//	}
-
-//	public ISolicitante getSolicitante() {
-//		return solicitante;
-//	}
-//
-//	public void setSolicitante(ISolicitante solicitante) {
-//		this.solicitante = solicitante;
-//	}
+	public void setEvent(Event event) {
+		this.event = event;
+	}
 
 	@Override
 	public int hashCode() {

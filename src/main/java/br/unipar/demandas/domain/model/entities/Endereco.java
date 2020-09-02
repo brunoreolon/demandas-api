@@ -1,13 +1,27 @@
-package br.unipar.demandas.domain.model;
+package br.unipar.demandas.domain.model.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Endereco {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String endereco;
 	private String numero;
 	private String bairro;
 	private String cidade;
 	private String estado;
 
+	@OneToOne(mappedBy = "endereco")
+	private Usuario usuario;
+	
 	public String getEndereco() {
 		return endereco;
 	}

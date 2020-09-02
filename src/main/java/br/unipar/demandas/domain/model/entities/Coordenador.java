@@ -1,22 +1,12 @@
-package br.unipar.demandas.domain.model;
+package br.unipar.demandas.domain.model.entities;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Aluno extends Usuario implements ISolicitante {
+public class Coordenador extends Usuario {
 
 	private Integer ra;
 	private String universidade;
-
-	@Override
-	public void cadastrar(Demanda demanda) {
-
-	}
-
-	@Override
-	public void avaliar() {
-
-	}
 
 	public Integer getRa() {
 		return ra;

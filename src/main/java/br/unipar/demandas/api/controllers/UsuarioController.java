@@ -16,65 +16,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.unipar.demandas.domain.model.entities.Demanda;
-import br.unipar.demandas.domain.service.DemandaService;
+import br.unipar.demandas.domain.model.entities.Usuario;
+import br.unipar.demandas.domain.service.UsuarioService;
 
 @RestController
-@RequestMapping("/demandas")
-public class DemandaController {
+@RequestMapping("/usuario")
+public class UsuarioController {
 
 	@Autowired
-	private DemandaService demandaService; 
+	private UsuarioService usuarioService; 
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Demanda cadastrar(@RequestBody Demanda demanda) {
+	public Usuario cadastrar(@RequestBody Usuario usuario) {
 		
-		return demandaService.salvar(demanda);
+		return usuarioService.salvar(usuario);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Demanda> buscarPorId(@PathVariable Long id){
+	public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id){
 		
-		Optional<Demanda> demanda = demandaService.encontrarPorId(id);
+		Optional<Usuario> usuario = usuarioService.encontrarPorId(id);
 		
-		if (!demanda.isPresent()) {
+		if (!usuario.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(demanda.get());
+		return ResponseEntity.ok(usuario.get());
 	}
 	
 	@GetMapping
-	public List<Demanda> listar(){
+	public List<Usuario> listar(){
 	
-		return this.demandaService.listar();
+		return this.usuarioService.listar();
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Demanda> atualizar(@PathVariable Long id, @RequestBody Demanda demanda){
+	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario){
 		
-		Optional<Demanda> demandaId = demandaService.encontrarPorId(id);
-		if (!demandaId.isPresent()) {
+		Optional<Usuario> usuarioId = usuarioService.encontrarPorId(id);
+		if (!usuarioId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		demanda.setId(id);
-		demanda = demandaService.atualizar(demanda);
+		usuario.setId(id);
+		usuario = usuarioService.atualizar(usuario);
 		
-		return ResponseEntity.ok(demanda);
+		return ResponseEntity.ok(usuario);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Demanda> deletar(@PathVariable Long id){
+	public ResponseEntity<Usuario> deletar(@PathVariable Long id){
 		
-		Optional<Demanda> demandaId = demandaService.encontrarPorId(id);
+		Optional<Usuario> usuarioId = usuarioService.encontrarPorId(id);
 		
-		if (!demandaId.isPresent()) {
+		if (!usuarioId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		demandaService.excluir(id);
+		usuarioService.excluir(id);
 		
 		return ResponseEntity.noContent().build();
 	}
