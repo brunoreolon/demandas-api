@@ -1,9 +1,6 @@
 package br.unipar.demandas.domain.model.entities;
 
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -18,19 +15,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @Entity
 public abstract class Solicitante extends Usuario{
 	
-	@OneToMany(mappedBy = "solicitante")
-	private List<Demanda> demandas;
+//	@OneToMany(mappedBy = "solicitante")
+//	private List<Demanda> demandas;
 	
 	public Solicitante() {
 		super();
 	}
 	
-	public List<Demanda> getDemandas() {
-		return demandas;
-	}
-
-	public void setDemandas(List<Demanda> demandas) {
-		this.demandas = demandas;
-	}
+//	public List<Demanda> getDemandas() {
+//		return demandas;
+//	}
+//
+//	public void setDemandas(List<Demanda> demandas) {
+//		this.demandas = demandas;
+//	}
 	
 }

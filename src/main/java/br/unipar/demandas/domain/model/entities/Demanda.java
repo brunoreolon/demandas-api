@@ -7,8 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -29,6 +32,8 @@ public class Demanda {
 	@NotBlank
 	private String descricao;
 	
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.UsuarioId.class)
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "solicitante_id")
@@ -36,7 +41,6 @@ public class Demanda {
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	@OneToOne()
-	@JoinColumn(name = "event_id")
 	@Cascade(CascadeType.ALL)
 	private Event event;
 

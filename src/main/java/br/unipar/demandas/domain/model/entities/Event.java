@@ -1,6 +1,6 @@
 package br.unipar.demandas.domain.model.entities;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -27,11 +30,14 @@ public class Event {
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	@Column(name = "data_cadastro")
-	private LocalDateTime dataCadastro;
+	private OffsetDateTime dataCadastro;
 	
 	@Column(name = "data_prazo")
-	private LocalDateTime dataPrazo;
+	private OffsetDateTime dataPrazo;
 	
+//	@Valid
+//	@ConvertGroup(from = Default.class, to = ValidationGroups.UsuarioId.class)
+//	@NotNull
 	@OneToOne
 	@JoinColumn(name = "avaliador_id")
 	private Coordenador coordenador;
@@ -41,13 +47,14 @@ public class Event {
 	private StatusEnum status;
 	
 	@OneToOne(mappedBy = "event")
+	@JoinColumn(name = "demanda_id")
 	private Demanda demanda;
 	
-	public LocalDateTime getDataCadastro() {
+	public OffsetDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
+	public void setDataCadastro(OffsetDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
@@ -59,11 +66,11 @@ public class Event {
 		this.id = id;
 	}
 
-	public LocalDateTime getDataPrazo() {
+	public OffsetDateTime getDataPrazo() {
 		return dataPrazo;
 	}
 
-	public void setDataPrazo(LocalDateTime dataPrazo) {
+	public void setDataPrazo(OffsetDateTime dataPrazo) {
 		this.dataPrazo = dataPrazo;
 	}
 
@@ -81,6 +88,14 @@ public class Event {
 
 	public void setStatus(StatusEnum status) {
 		this.status = status;
+	}
+
+	public Demanda getDemanda() {
+		return demanda;
+	}
+
+	public void setDemanda(Demanda demanda) {
+		this.demanda = demanda;
 	}
 
 	@Override

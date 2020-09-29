@@ -3,6 +3,8 @@ package br.unipar.demandas.api.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unipar.demandas.domain.model.entities.Demanda;
+import br.unipar.demandas.domain.model.entities.Event;
 import br.unipar.demandas.domain.service.DemandaService;
 
 @RestController
@@ -28,15 +31,15 @@ public class DemandaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Demanda cadastrar(@RequestBody Demanda demanda) {
-		
+	public Demanda cadastrar(@Valid @RequestBody Demanda demanda) {
 		return demandaService.salvar(demanda);
+		
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Demanda> buscarPorId(@PathVariable Long id){
 		
-		Optional<Demanda> demanda = demandaService.encontrarPorId(id);
+		Optional<Demanda> demanda = demandaService.buscarPorId(id);
 		
 		if (!demanda.isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -48,18 +51,18 @@ public class DemandaController {
 	@GetMapping
 	public List<Demanda> listar(){
 	
-		return this.demandaService.listar();
+		return demandaService.listar();
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Demanda> atualizar(@PathVariable Long id, @RequestBody Demanda demanda){
 		
-		Optional<Demanda> demandaId = demandaService.encontrarPorId(id);
+		Optional<Demanda> demandaId = demandaService.buscarPorId(id);
 		if (!demandaId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		demanda.setId(id);
+		demanda.setId(demandaId.get().getId());
 		demanda = demandaService.atualizar(demanda);
 		
 		return ResponseEntity.ok(demanda);
@@ -68,7 +71,7 @@ public class DemandaController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Demanda> deletar(@PathVariable Long id){
 		
-		Optional<Demanda> demandaId = demandaService.encontrarPorId(id);
+		Optional<Demanda> demandaId = demandaService.buscarPorId(id);
 		
 		if (!demandaId.isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -78,4 +81,7 @@ public class DemandaController {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	
+	
 }

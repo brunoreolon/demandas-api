@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.unipar.demandas.domain.model.entities.Aluno;
 import br.unipar.demandas.domain.model.entities.Usuario;
 import br.unipar.demandas.domain.repository.UsuarioRepository;
 
@@ -17,13 +16,11 @@ public class UsuarioService {
 	private UsuarioRepository repository;
 
 	public Usuario salvar(Usuario usuario) {
-
-		Aluno aluno = (Aluno) usuario;
-		return repository.save(aluno);
+		return repository.save(usuario);
 	}
 
 	public Usuario atualizar(Usuario usuario) {
-		return null;
+		return repository.save(usuario);
 	}
 
 	public List<Usuario> listar() {

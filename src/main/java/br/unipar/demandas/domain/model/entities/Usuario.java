@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -28,6 +31,8 @@ import br.unipar.demandas.domain.model.enums.TipoUsuarioEnum;
 @Entity
 public abstract class Usuario {
 	
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.UsuarioId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -45,7 +50,7 @@ public abstract class Usuario {
 	private TipoUsuarioEnum tipoUsuario;
 	
 	@OneToOne()
-	@JoinColumn(name = "endereco_id")
+//	@JoinColumn(name = "endereco_id")
 	@Cascade(CascadeType.ALL)
 	private Endereco endereco;
 
@@ -140,5 +145,5 @@ public abstract class Usuario {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
+	
 }
