@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Endereco {
@@ -14,10 +15,19 @@ public class Endereco {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	private String endereco;
+	
+	@NotBlank
 	private String numero;
+	
+	@NotBlank
 	private String bairro;
+	
+	@NotBlank
 	private String cidade;
+	
+	@NotBlank
 	private String estado;
 
 	@OneToOne()

@@ -18,70 +18,73 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.unipar.demandas.api.model.DemandaAtualizarInput;
+import br.unipar.demandas.api.model.DemandaInput;
+import br.unipar.demandas.api.model.DemandaModel;
 import br.unipar.demandas.domain.model.entities.Demanda;
-import br.unipar.demandas.domain.model.entities.Event;
 import br.unipar.demandas.domain.service.DemandaService;
+import br.unipar.demandas.domain.utils.MapperDemanda;
 
 @RestController
 @RequestMapping("/demandas")
 public class DemandaController {
 
 	@Autowired
-	private DemandaService demandaService; 
+	private DemandaService demandaService;
 
+	private MapperDemanda mapper = new MapperDemanda();
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Demanda cadastrar(@Valid @RequestBody Demanda demanda) {
-		return demandaService.salvar(demanda);
-		
+	public DemandaModel cadastrar(@Valid @RequestBody DemandaInput demandaInput) {
+		return mapper.toModel(demandaService.salvar(demandaInput));
+	}
+
+	@GetMapping
+	public List<DemandaModel> listar() {
+		return mapper.toCollectionModel(demandaService.listar());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Demanda> buscarPorId(@PathVariable Long id){
-		
+	public ResponseEntity<DemandaModel> buscarPorId(@PathVariable Long id) {
+
 		Optional<Demanda> demanda = demandaService.buscarPorId(id);
-		
+
 		if (!demanda.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		return ResponseEntity.ok(demanda.get());
+
+		DemandaModel demandaModel = mapper.toModel(demanda.get());
+		return ResponseEntity.ok(demandaModel);
 	}
-	
-	@GetMapping
-	public List<Demanda> listar(){
-	
-		return demandaService.listar();
-	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<Demanda> atualizar(@PathVariable Long id, @RequestBody Demanda demanda){
+	public ResponseEntity<DemandaModel> atualizar(@Valid @PathVariable Long id,
+			@RequestBody DemandaAtualizarInput demandaInput) {
 		
 		Optional<Demanda> demandaId = demandaService.buscarPorId(id);
+
 		if (!demandaId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
+
+		demandaInput.setId(id);		
+		Demanda demanda = demandaService.atualizar(demandaInput);
 		
-		demanda.setId(demandaId.get().getId());
-		demanda = demandaService.atualizar(demanda);
-		
-		return ResponseEntity.ok(demanda);
+		return ResponseEntity.ok(mapper.toModel(demanda));
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Demanda> deletar(@PathVariable Long id){
-		
+	public ResponseEntity<Demanda> deletar(@PathVariable Long id) {
+
 		Optional<Demanda> demandaId = demandaService.buscarPorId(id);
-		
+
 		if (!demandaId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		demandaService.excluir(id);
-		
+
 		return ResponseEntity.noContent().build();
 	}
-	
-	
-	
 }

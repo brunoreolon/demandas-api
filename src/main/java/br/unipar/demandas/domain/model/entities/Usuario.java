@@ -6,11 +6,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -21,41 +21,61 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.unipar.demandas.domain.model.enums.TipoUsuarioEnum;
 
-@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ 
-  @Type(value = Aluno.class, name = "aluno"), 
-  @Type(value = Professor.class, name = "professor"), 
-  @Type(value = UsuarioExterno.class, name = "usuarioExterno"),
-  @Type(value = Coordenador.class, name = "coordenador")
+		@Type(value = Aluno.class, name = "aluno"), 
+		@Type(value = Professor.class, name = "professor"),
+		@Type(value = UsuarioExterno.class, name = "usuarioExterno"),
+		@Type(value = Coordenador.class, name = "coordenador") 
 })
 @Entity
 public abstract class Usuario {
 	
-	@Valid
-	@ConvertGroup(from = Default.class, to = ValidationGroups.UsuarioId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	private String nome;
+	
+	@NotBlank
 	private String cpf;
+	
+//	@NotBlank
 	private String cnpj;
+	
+	@NotBlank
+	@Email
 	private String email;
+	
+	@NotBlank
 	private String formacao;
+	
+	@NotBlank
 	private String celular;
+	
+	@NotBlank
 	private String telefone;
+	
+	@NotBlank
 	private String genero;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private TipoUsuarioEnum tipoUsuario;
 	
+	@Valid
+	@NotNull
 	@OneToOne()
-//	@JoinColumn(name = "endereco_id")
 	@Cascade(CascadeType.ALL)
 	private Endereco endereco;
 
 	public Usuario(){
-		
+	
+	}
+	
+	public Usuario(Long id){
+		this.id = id;
 	}
 	
 	public TipoUsuarioEnum getTipoUsuario() {

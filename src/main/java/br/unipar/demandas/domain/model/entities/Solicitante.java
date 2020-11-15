@@ -14,13 +14,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 @Entity
 public abstract class Solicitante extends Usuario{
+
+	public Solicitante() {
+		super();
+	}
+	
+	public Solicitante(Long id) {
+		super(id);
+	}
 	
 //	@OneToMany(mappedBy = "solicitante")
 //	private List<Demanda> demandas;
 	
-	public Solicitante() {
-		super();
-	}
+	
 	
 //	public List<Demanda> getDemandas() {
 //		return demandas;

@@ -3,6 +3,8 @@ package br.unipar.demandas.api.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.unipar.demandas.api.model.UsuarioModel;
 import br.unipar.demandas.domain.model.entities.Usuario;
 import br.unipar.demandas.domain.service.UsuarioService;
+import br.unipar.demandas.domain.utils.MapperUsuario;
 
 @RestController
 @RequestMapping("/usuario")
@@ -26,15 +30,16 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService; 
 
+	private MapperUsuario mapper = new MapperUsuario();
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Usuario cadastrar(@RequestBody Usuario usuario) {
-		
-		return usuarioService.salvar(usuario);
+	public UsuarioModel cadastrar(@Valid @RequestBody Usuario usuario) {
+		return mapper.toModel(usuarioService.salvar(usuario));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id){
+	public ResponseEntity<UsuarioModel> buscarPorId(@PathVariable Long id){
 		
 		Optional<Usuario> usuario = usuarioService.encontrarPorId(id);
 		
@@ -42,19 +47,20 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(usuario.get());
+		UsuarioModel usuarioModel = mapper.toModel(usuario.get());
+		return ResponseEntity.ok(usuarioModel);
 	}
 	
 	@GetMapping
-	public List<Usuario> listar(){
-	
-		return this.usuarioService.listar();
+	public List<UsuarioModel> listar(){
+		return mapper.toCollectionModel(usuarioService.listar());
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario){
+	public ResponseEntity<UsuarioModel> atualizar(@Valid @PathVariable Long id, @RequestBody Usuario usuario){
 		
 		Optional<Usuario> usuarioId = usuarioService.encontrarPorId(id);
+		
 		if (!usuarioId.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -62,7 +68,7 @@ public class UsuarioController {
 		usuario.setId(id);
 		usuario = usuarioService.atualizar(usuario);
 		
-		return ResponseEntity.ok(usuario);
+		return ResponseEntity.ok(mapper.toModel(usuario));
 	}
 	
 	@DeleteMapping("/{id}")

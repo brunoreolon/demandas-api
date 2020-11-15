@@ -1,23 +1,19 @@
 package br.unipar.demandas.domain.model.entities;
 
+import java.time.OffsetDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import br.unipar.demandas.domain.model.enums.StatusEnum;
 
 @Entity
 public class Demanda {
@@ -26,23 +22,25 @@ public class Demanda {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
 	private String titulo;
-	
-	@NotBlank
 	private String descricao;
-	
-	@Valid
-	@ConvertGroup(from = Default.class, to = ValidationGroups.UsuarioId.class)
-	@NotNull
+
 	@ManyToOne
 	@JoinColumn(name = "solicitante_id")
 	private Solicitante solicitante;
-	
-	@JsonProperty(access = Access.READ_ONLY)
-	@OneToOne()
-	@Cascade(CascadeType.ALL)
-	private Event event;
+
+	@Column(name = "data_cadastro")
+	private OffsetDateTime dataCadastro;
+
+	@Column(name = "data_prazo")
+	private OffsetDateTime dataPrazo;
+
+	@OneToOne
+	@JoinColumn(name = "avaliador_id")
+	private Coordenador coordenador;
+
+	@Enumerated(EnumType.STRING)
+	private StatusEnum status;
 
 	public Long getId() {
 		return id;
@@ -75,13 +73,45 @@ public class Demanda {
 	public void setSolicitante(Solicitante solicitante) {
 		this.solicitante = solicitante;
 	}
-	
-	public Event getEvent() {
-		return event;
+
+//	public Event getEvent() {
+//		return event;
+//	}
+//
+//	public void setEvent(Event event) {
+//		this.event = event;
+//	}
+
+	public OffsetDateTime getDataCadastro() {
+		return dataCadastro;
 	}
 
-	public void setEvent(Event event) {
-		this.event = event;
+	public void setDataCadastro(OffsetDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public OffsetDateTime getDataPrazo() {
+		return dataPrazo;
+	}
+
+	public void setDataPrazo(OffsetDateTime dataPrazo) {
+		this.dataPrazo = dataPrazo;
+	}
+
+	public Coordenador getCoordenador() {
+		return coordenador;
+	}
+
+	public void setCoordenador(Coordenador coordenador) {
+		this.coordenador = coordenador;
+	}
+
+	public StatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEnum status) {
+		this.status = status;
 	}
 
 	@Override
