@@ -19,5 +19,5 @@ Api para o cadastro de demandas, onde um usuário cadastra uma demanda, em segui
 - DELETE /demandas/[id]
 
 #### Coordenador
-- GET /magazines
+- GET /coordenador
 - PATCH /coordenador/[id]/status
